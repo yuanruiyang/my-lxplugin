@@ -1,0 +1,17 @@
+{
+  "name": "lxbridge",
+  "version": "1.0.0",
+  "description": "桥接 lxserver 多平台音乐搜索服务",
+  "private": true,
+  "scripts": {
+    "build": "songloft-plugin build",
+    "dev": "songloft-plugin dev",
+    "validate": "songloft-plugin validate",
+    "publish:release": "songloft-plugin publish"
+  },
+  "devDependencies": {
+    "@songloft/plugin-builder": "^2.4.3",
+    "@songloft/plugin-sdk": "^2.4.3",
+    "typescript": "^5.9.3"
+  }
+}
