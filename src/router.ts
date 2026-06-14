@@ -49,6 +49,7 @@ router.post('/api/music/url', createMusicUrlHandler({
         singer: sourceData.singer as string,
         source: sourceData.source as string,
         songmid: sourceData.songmid as string,
+        hash: sourceData.hash as string | undefined,
         types: (sourceData.types as unknown[]) || []
       },
       config.defaultQuality
@@ -102,6 +103,7 @@ router.post('/api/miot/search', async (req: HTTPRequest) => {
           singer: result.singer,
           source: result.source,
           songmid: result.songmid,
+          hash: result.hash,
           types: result.types
         },
         quality
