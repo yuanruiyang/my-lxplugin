@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>LXServer 桥接</title>
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+  <header class="app-bar">
+    <span class="material-symbols-outlined">cable</span>
+    <h1>LXServer 桥接</h1>
+  </header>
+
+  <main class="content">
+    <div class="container">
+
+      <!-- 连接状态 -->
+      <div class="card" id="statusCard">
+        <div class="card-header">
+          <span class="card-title">连接状态</span>
+          <button class="btn-icon" id="btnRefresh" title="刷新">
+            <span class="material-symbols-outlined">refresh</span>
+          </button>
+        </div>
+        <div class="status-row">
+          <span class="status-dot" id="statusDot"></span>
+          <span id="statusText">检查中...</span>
+        </div>
+      </div>
+
+      <!-- 配置表单 -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">服务配置</span>
+        </div>
+
+        <div class="field-group">
+          <label for="lxserverUrl">LXServer 地址</label>
+          <input type="url" id="lxserverUrl" class="text-field" placeholder="http://localhost:9527">
+        </div>
+
+        <div class="field-group">
+          <label for="lxserverToken">访问 Token</label>
+          <input type="password" id="lxserverToken" class="text-field" placeholder="可选">
+        </div>
+
+        <div class="field-group">
+          <label for="lxserverUsername">用户名</label>
+          <input type="text" id="lxserverUsername" class="text-field" placeholder="可选">
+        </div>
+
+        <div class="field-group">
+          <label for="defaultQuality">默认音质</label>
+          <select id="defaultQuality" class="text-field">
+            <option value="128k">128k</option>
+            <option value="320k">320k</option>
+            <option value="flac">FLAC</option>
+            <option value="flac24bit">FLAC 24bit</option>
+          </select>
+        </div>
+
+        <div class="actions">
+          <button class="btn-filled" id="btnSave">保存配置</button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="snackbar" class="snackbar"></div>
+  <script type="module" src="static/js/app.js"></script>
+</body>
+</html>
