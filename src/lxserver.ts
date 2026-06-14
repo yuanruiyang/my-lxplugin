@@ -20,9 +20,12 @@ export class LxserverClient {
     private username: string = ''
   ) {}
 
-  /** 搜索音乐 */
-  async search(keyword: string, page = 1, limit = 5): Promise<LxserverSearchResult[]> {
-    const url = `${this.baseUrl}/api/music/search?name=${encodeURIComponent(keyword)}&page=${page}&limit=${limit}`
+  /** 搜索音乐，source 可指定平台（kg/kw/tx/wy/mg）或留空走聚合 */
+  async search(keyword: string, page = 1, limit = 5, source?: string): Promise<LxserverSearchResult[]> {
+    let url = `${this.baseUrl}/api/music/search?name=${encodeURIComponent(keyword)}&page=${page}&limit=${limit}`
+    if (source && source !== 'all') {
+      url += `&source=${source}`
+    }
 
     const resp = await fetch(url, {
       method: 'GET',
