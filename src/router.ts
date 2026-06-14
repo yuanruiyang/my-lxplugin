@@ -82,7 +82,7 @@ router.post('/api/miot/search', async (req: HTTPRequest) => {
   }
 
   const config = await getConfig()
-  const quality = (body.quality as string) || config.defaultQuality
+  const quality = config.defaultQuality
 
   try {
     const client = new LxserverClient(config.lxserverUrl, config.lxserverToken, config.lxserverUsername)
