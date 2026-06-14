@@ -1,6 +1,6 @@
 {
   "name": "lxbridge",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "桥接 lxserver 多平台音乐搜索服务",
   "private": true,
   "scripts": {
