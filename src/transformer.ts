@@ -27,13 +27,19 @@ export function toSearchResultItem(r: LxserverSearchResult): SearchResultItem {
 
 /** 构造 source_data：resolveUrl 时需要这些信息向 lxserver 请求播放 URL */
 export function buildSourceData(r: LxserverSearchResult): Record<string, unknown> {
-  return {
+  const sd: Record<string, unknown> = {
     name: r.name,
     singer: r.singer,
     source: r.source,
-    songmid: r.songmid || '',
-    types: (r.types || []).map(t => ({ type: t.type, size: t.size }))
+    songmid: r.songmid ?? '',
+    types: (r.types || []).map(t => {
+      const entry: Record<string, string> = { type: t.type, size: t.size }
+      if (t.hash) entry.hash = t.hash
+      return entry
+    })
   }
+  if (r.hash) sd.hash = r.hash
+  return sd
 }
 
 /**
@@ -45,6 +51,17 @@ export function toMiotResponse(
   playUrl: string,
   quality: string
 ) {
+  const songInfo: Record<string, unknown> = {
+    musicId: r.songmid ?? '',
+    songmid: r.songmid ?? '',
+    types: (r.types || []).map(t => {
+      const entry: Record<string, string> = { type: t.type, size: t.size }
+      if (t.hash) entry.hash = t.hash
+      return entry
+    })
+  }
+  if (r.hash) songInfo.hash = r.hash
+
   return {
     code: 0,
     msg: 'success',
@@ -58,11 +75,7 @@ export function toMiotResponse(
       source_data: {
         platform: SOURCE_TO_PLATFORM[r.source] || r.source,
         quality,
-        songInfo: {
-          musicId: r.songmid || '',
-          songmid: r.songmid || '',
-          types: (r.types || []).map(t => ({ type: t.type, size: t.size }))
-        }
+        songInfo
       }
     }
   }
