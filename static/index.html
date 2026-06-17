@@ -8,72 +8,142 @@
 </head>
 <body>
   <header class="app-bar">
-    <span class="material-symbols-outlined">cable</span>
-    <h1>LXServer 桥接</h1>
+    <div class="app-bar-inner">
+      <div class="app-bar-brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 447.942 447.943" xmlns="http://www.w3.org/2000/svg">
+            <path style="fill: rgba(255,255,255,0.7)" d="M203.806.482c-19.668-3.346-35.76 11.139-35.76 31.086v206.166c-11.642-4.271-24.165-6.725-37.281-6.725-59.905 0-108.469 48.566-108.469 108.473 0 59.903 48.564 108.461 108.469 108.461 34.141 0 64.54-15.82 84.406-40.482l-49.658-49.664c-15.116-15.112-11.708-28.901-9.542-34.14 2.166-5.233 9.514-17.4 30.883-17.4h18.082v-56.885c0-21.132 14.617-38.862 34.266-43.745.032-44.373.032-81.808.032-81.808 140.147 0 131.724 83.974 115.325 132.196-6.42 18.884-2.601 22.05 10.893 7.354C536.473 77.106 298.38 16.566 203.806.482z"/>
+            <path style="fill: rgba(255,255,255,0.95)" d="M301.061 223.876h-50.994c-3.911 0-7.574.95-10.889 2.523-8.616 4.09-14.615 12.798-14.615 22.973v76.51h-37.708c-14.082 0-17.428 8.071-7.466 18.029l46.893 46.898 31.25 31.246a25.424 25.424 0 0 0 18.033 7.474c6.523 0 13.052-2.484 18.029-7.474l78.152-78.145c9.951-9.958 6.608-18.029-7.47-18.029h-37.71v-76.51c.001-14.078-11.42-25.495-25.505-25.495z"/>
+          </svg>
+        </div>
+        <h1>LXServer 桥接</h1>
+      </div>
+      <div class="app-bar-status" id="statusBadge">
+        <span class="status-dot" id="statusDot"></span>
+        <span class="status-label" id="statusText">检查中...</span>
+        <button class="btn-icon-sm" id="btnRefresh" title="刷新连接">
+          <span class="material-symbols-outlined">refresh</span>
+        </button>
+      </div>
+    </div>
   </header>
 
   <main class="content">
     <div class="container">
 
-      <!-- 连接状态 -->
-      <div class="card" id="statusCard">
+      <!-- 服务配置 -->
+      <div class="glass-card animate-slide-up" style="animation-delay: 0.05s">
         <div class="card-header">
-          <span class="card-title">连接状态</span>
-          <button class="btn-icon" id="btnRefresh" title="刷新">
-            <span class="material-symbols-outlined">refresh</span>
-          </button>
-        </div>
-        <div class="status-row">
-          <span class="status-dot" id="statusDot"></span>
-          <span id="statusText">检查中...</span>
-        </div>
-      </div>
-
-      <!-- 配置表单 -->
-      <div class="card">
-        <div class="card-header">
+          <span class="material-symbols-outlined card-icon">settings</span>
           <span class="card-title">服务配置</span>
         </div>
 
-        <div class="field-group">
-          <label for="lxserverUrl">LXServer 地址</label>
-          <input type="url" id="lxserverUrl" class="text-field" placeholder="http://localhost:9527">
-        </div>
+        <div class="form-grid">
+          <div class="field-group field-full">
+            <label for="lxserverUrl">
+              <span class="material-symbols-outlined field-icon">dns</span>
+              LXServer 地址
+            </label>
+            <input type="url" id="lxserverUrl" class="text-field" placeholder="http://localhost:9527">
+          </div>
 
-        <div class="field-group">
-          <label for="lxserverToken">访问 Token</label>
-          <input type="password" id="lxserverToken" class="text-field" placeholder="可选">
-        </div>
+          <div class="field-group">
+            <label for="lxserverToken">
+              <span class="material-symbols-outlined field-icon">key</span>
+              访问 Token
+            </label>
+            <input type="password" id="lxserverToken" class="text-field" placeholder="可选">
+          </div>
 
-        <div class="field-group">
-          <label for="lxserverUsername">用户名</label>
-          <input type="text" id="lxserverUsername" class="text-field" placeholder="可选">
-        </div>
+          <div class="field-group">
+            <label for="lxserverUsername">
+              <span class="material-symbols-outlined field-icon">person</span>
+              用户名
+            </label>
+            <input type="text" id="lxserverUsername" class="text-field" placeholder="可选">
+          </div>
 
-        <div class="field-group">
-          <label for="defaultQuality">默认音质</label>
-          <select id="defaultQuality" class="text-field">
-            <option value="128k">128k</option>
-            <option value="320k">320k</option>
-            <option value="flac">FLAC</option>
-            <option value="flac24bit">FLAC 24bit</option>
-          </select>
-        </div>
+          <div class="field-group">
+            <label for="defaultQuality">
+              <span class="material-symbols-outlined field-icon">high_quality</span>
+              默认音质
+            </label>
+            <select id="defaultQuality" class="text-field">
+              <option value="128k">128k</option>
+              <option value="320k">320k</option>
+              <option value="flac">FLAC</option>
+              <option value="flac24bit">FLAC 24bit</option>
+            </select>
+          </div>
 
-        <div class="field-group">
-          <label for="defaultPlatform">默认搜索平台</label>
-          <select id="defaultPlatform" class="text-field">
-            <option value="all">聚合搜索</option>
-            <option value="kg">酷狗</option>
-            <option value="kw">酷我</option>
-            <option value="wy">网易</option>
-            <option value="tx">QQ</option>
-            <option value="mg">咪咕</option>
-          </select>
+          <div class="field-group">
+            <label for="defaultPlatform">
+              <span class="material-symbols-outlined field-icon">search</span>
+              搜索平台
+            </label>
+            <select id="defaultPlatform" class="text-field">
+              <option value="all">聚合搜索</option>
+              <option value="kg">酷狗</option>
+              <option value="kw">酷我</option>
+              <option value="wy">网易</option>
+              <option value="tx">QQ</option>
+              <option value="mg">咪咕</option>
+            </select>
+          </div>
         </div>
 
         <div class="actions">
-          <button class="btn-filled" id="btnSave">保存配置</button>
+          <button class="btn-filled" id="btnSave">
+            <span class="material-symbols-outlined">save</span>
+            保存配置
+          </button>
+        </div>
+      </div>
+
+      <!-- 搜索测试 -->
+      <div class="glass-card animate-slide-up" style="animation-delay: 0.15s">
+        <div class="card-header">
+          <span class="material-symbols-outlined card-icon">travel_explore</span>
+          <span class="card-title">搜索测试</span>
+        </div>
+
+        <div class="search-bar">
+          <span class="material-symbols-outlined search-icon">search</span>
+          <input type="text" id="searchInput" class="search-input" placeholder="输入关键词测试搜索...">
+          <button class="btn-search" id="btnSearch">搜索</button>
+        </div>
+
+        <div id="searchResults" class="search-results hidden">
+          <div class="results-header">
+            <span id="resultsCount">0 条结果</span>
+            <span id="resultsTime"></span>
+          </div>
+          <div id="resultsList" class="results-list"></div>
+        </div>
+
+        <div id="searchLoading" class="search-loading hidden">
+          <div class="music-bars">
+            <div></div><div></div><div></div><div></div><div></div>
+          </div>
+          <span>搜索中...</span>
+        </div>
+
+        <div id="searchEmpty" class="search-empty hidden">
+          <span class="material-symbols-outlined">search_off</span>
+          <span>未找到相关结果</span>
+        </div>
+      </div>
+
+      <!-- 关于 -->
+      <div class="glass-card glass-card-mini animate-slide-up" style="animation-delay: 0.25s">
+        <div class="about-row">
+          <span class="about-label">版本</span>
+          <span class="about-value" id="versionText">1.0.5</span>
+        </div>
+        <div class="about-divider"></div>
+        <div class="about-row">
+          <span class="about-label">引擎</span>
+          <span class="about-value">lxserver</span>
         </div>
       </div>
 
