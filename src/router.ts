@@ -29,12 +29,19 @@ async function createClient(): Promise<LxserverClient> {
 // ===== 标准音源端点（Songloft 主程序调用） =====
 
 // POST /api/search — 搜索 lxserver，返回标准 SearchResultItem[]
+// defaultPlatform='all' 时使用聚合搜索（酷狗→网易→QQ→酷我），否则用指定单源
 router.post('/api/search', createSearchHandler({
   search: async (keyword, page, pageSize) => {
     const client = await createClient()
     const config = await getConfig()
-    const results = await client.search(keyword, page || 1, pageSize || 5, config.defaultPlatform)
-    return results.map(toSearchResultItem)
+    const limit = pageSize || 5
+    let results
+    if (!config.defaultPlatform || config.defaultPlatform === 'all') {
+      results = await client.searchAggregated(keyword, page || 1, limit)
+    } else {
+      results = await client.search(keyword, page || 1, limit, config.defaultPlatform)
+    }
+    return results.slice(0, limit).map(toSearchResultItem)
   }
 }))
 
@@ -89,8 +96,8 @@ router.post('/api/miot/search', async (req: HTTPRequest) => {
   try {
     const client = new LxserverClient(config.lxserverUrl, config.lxserverToken, config.lxserverUsername)
 
-    // 搜索 lxserver（limit 5，取第一条）
-    const results = await client.search(keyword, 1, 5, config.defaultPlatform)
+    // 聚合搜索（酷狗→网易→QQ→酷我），取前 5 条
+    const results = await client.searchAggregated(keyword, 1, 5)
     if (results.length === 0) {
       return jsonResponse(miotError(404, 'No results found'))
     }
