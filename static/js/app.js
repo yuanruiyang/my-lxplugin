@@ -112,11 +112,20 @@ async function doSearch() {
     const resp = await apiPost('/api/search', {
       keyword,
       page: 1,
-      pageSize: 20,
+      page_size: 20,
     });
 
     const elapsed = Math.round(performance.now() - t0);
-    const items = (resp.data || resp) || [];
+
+    // createSearchHandler returns { results: [...] } or { error: "..." }
+    if (resp.error) {
+      elSearchLoading.classList.add('hidden');
+      showSnackbar(`搜索失败：${resp.error}`);
+      elBtnSearch.disabled = false;
+      return;
+    }
+
+    const items = resp.results || [];
 
     elSearchLoading.classList.add('hidden');
 
@@ -143,10 +152,11 @@ async function doSearch() {
       el.innerHTML = `
         <div class="result-cover">${coverHtml}</div>
         <div class="result-info">
-          <div class="result-name">${escapeHtml(item.name || '')}</div>
+          <div class="result-name">${escapeHtml(item.title || '')}</div>
           <div class="result-meta">
             <span>${escapeHtml(item.artist || '')}</span>
             ${item.album ? `<span>· ${escapeHtml(item.album)}</span>` : ''}
+            ${item.duration ? `<span>· ${formatDuration(item.duration)}</span>` : ''}
           </div>
         </div>
         <span class="result-source ${sourceClass}">${sourceLabel}</span>
@@ -170,6 +180,12 @@ function escapeHtml(str) {
   const d = document.createElement('div');
   d.textContent = str;
   return d.innerHTML;
+}
+
+function formatDuration(seconds) {
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return `${m}:${s.toString().padStart(2, '0')}`;
 }
 
 function showSnackbar(message) {
