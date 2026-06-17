@@ -14,14 +14,15 @@ const SOURCE_TO_PLATFORM: Record<string, string> = {
  * 把 lxserver 搜索结果转为 SDK SearchResultItem（标准音源搜索响应）。
  * source_data 是不透明 JSON，宿主原样存进 song 表，后续 music/url 时回传。
  */
-export function toSearchResultItem(r: LxserverSearchResult): SearchResultItem {
+export function toSearchResultItem(r: LxserverSearchResult): SearchResultItem & { source: string } {
   return {
     title: r.name,
     artist: r.singer,
     album: r.albumName || '',
     duration: parseDuration(r.interval),
     cover_url: r.img || '',
-    source_data: buildSourceData(r)
+    source_data: buildSourceData(r),
+    source: r.source
   }
 }
 
