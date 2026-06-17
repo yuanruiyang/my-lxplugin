@@ -203,6 +203,20 @@ document.addEventListener('DOMContentLoaded', () => {
   elSearchInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') doSearch();
   });
+
+  // Click-to-copy for MIoT API path
+  const elMiotApi = document.getElementById('miotApiText');
+  if (elMiotApi) {
+    elMiotApi.addEventListener('click', () => {
+      const text = elMiotApi.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        showSnackbar('已复制 API 路径');
+      }).catch(() => {
+        showSnackbar('复制失败');
+      });
+    });
+  }
+
   loadConfig();
   checkHealth();
 });
